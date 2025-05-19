@@ -52,3 +52,14 @@ std::string listen_vosk() {
         std::cerr << "Нет доступного микрофона." << std::endl;
         return "";
     }
+    
+inputParameters.channelCount = 1;
+    inputParameters.sampleFormat = paInt16;
+    inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
+    inputParameters.hostApiSpecificStreamInfo = nullptr;
+
+    err = Pa_OpenStream(&stream, &inputParameters, nullptr, 16000.0, 0, nullptr, nullptr);
+    if (err != paNoError) {
+        std::cerr << "Ошибка открытия потока: " << Pa_GetErrorText(err) << std::endl;
+        return "";
+    }
